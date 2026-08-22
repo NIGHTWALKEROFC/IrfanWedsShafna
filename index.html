@@ -357,9 +357,206 @@
   }
 
   :focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+
+  /* ================= INVITATION GATE ================= */
+  html.gate-locked, html.gate-locked body{ overflow:hidden; height:100%; }
+
+  .gate{
+    position:fixed; inset:0;
+    z-index:999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:8vh 7vw;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(159,194,184,0.4), transparent 55%),
+      linear-gradient(180deg, var(--ivory) 0%, var(--paper) 100%);
+    transition: opacity 0.9s ease, visibility 0.9s ease;
+  }
+  .gate::before, .gate::after{
+    content:"";
+    position:absolute;
+    width:300px; height:300px;
+    border-radius:50%;
+    z-index:0;
+  }
+  .gate::before{ top:-100px; left:-90px; background:radial-gradient(circle, rgba(190,154,86,0.18), transparent 70%); }
+  .gate::after{ bottom:-120px; right:-100px; background:radial-gradient(circle, rgba(62,122,114,0.2), transparent 70%); }
+
+  .gate.gate-hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+
+  .gate-inner{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; max-width:420px; }
+
+  .gate-photo-frame{
+    width:min(42vw, 150px);
+    aspect-ratio:1/1;
+    margin-bottom:24px;
+    border-radius:50%;
+    padding:5px;
+    background: conic-gradient(from 0deg, var(--gold), var(--gold-soft), var(--gold));
+    filter:drop-shadow(0 14px 28px rgba(30,72,68,0.2));
+  }
+  .gate-photo-frame .inner{
+    width:100%; height:100%;
+    border-radius:50%;
+    overflow:hidden;
+    border:3px solid var(--ivory);
+  }
+  .gate-photo-frame img{ width:100%; height:100%; object-fit:cover; }
+
+  .gate-eyebrow{ margin-bottom:6px; }
+
+  .gate-names{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(2rem, 7vw, 2.8rem);
+    color:var(--deep-teal);
+    margin-bottom:6px;
+  }
+  .gate-names .amp{ font-style:italic; color:var(--gold); font-size:0.7em; margin:0 0.15em;}
+
+  .gate-quote{
+    margin:22px 0 10px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.12rem;
+    line-height:1.6;
+    color:var(--ink-soft);
+  }
+  .gate-quote-ref{
+    display:block;
+    margin-top:10px;
+    font-family:'Jost', sans-serif;
+    font-style:normal;
+    font-size:0.68rem;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  .gate-cta{
+    margin-top:36px;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    background:var(--deep-teal);
+    color:var(--ivory);
+    border:1px solid var(--deep-teal);
+    padding:16px 34px;
+    border-radius:50px;
+    font-family:'Jost', sans-serif;
+    font-size:0.82rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition: background 0.35s ease, color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+    box-shadow: 0 14px 34px rgba(30,72,68,0.22);
+  }
+  .gate-cta:hover{ transform:translateY(-3px); box-shadow: 0 18px 40px rgba(30,72,68,0.3); }
+  .gate-cta svg{ width:15px; height:15px; fill:currentColor; }
+
+  .gate-hint{
+    margin-top:18px;
+    font-size:0.68rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    opacity:0.65;
+  }
+
+  .gate-ring{
+    position:absolute; inset:0;
+    pointer-events:none;
+  }
+  .gate-ring svg{ position:absolute; opacity:0.55; }
+
+  @keyframes gateFloat{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-8px); }
+  }
+  .gate-photo-frame{ animation: gateFloat 5s ease-in-out infinite; }
+
+  /* ---------- Floating music control ---------- */
+  .music-toggle{
+    position:fixed;
+    right:20px; bottom:20px;
+    z-index:500;
+    width:52px; height:52px;
+    border-radius:50%;
+    background:var(--deep-teal);
+    border:1px solid var(--gold-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 10px 26px rgba(30,72,68,0.28);
+    opacity:0;
+    transform:translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease;
+  }
+  .music-toggle.show{ opacity:1; transform:translateY(0); }
+  .music-toggle svg{ width:20px; height:20px; fill:var(--gold-soft); }
+  .music-toggle .bars{ display:flex; align-items:flex-end; gap:3px; height:16px; }
+  .music-toggle .bars span{
+    display:block; width:3px; background:var(--gold-soft); border-radius:2px;
+    animation: barBounce 0.9s ease-in-out infinite;
+  }
+  .music-toggle .bars span:nth-child(1){ height:6px; animation-delay:0s; }
+  .music-toggle .bars span:nth-child(2){ height:16px; animation-delay:0.15s; }
+  .music-toggle .bars span:nth-child(3){ height:10px; animation-delay:0.3s; }
+  .music-toggle.paused .bars span{ animation-play-state:paused; height:5px !important; }
+
+  @keyframes barBounce{
+    0%,100%{ transform:scaleY(0.4); }
+    50%{ transform:scaleY(1); }
+  }
+
+  @media (max-width:420px){
+    .gate-photo-frame{ width:120px; }
+  }
 </style>
 </head>
 <body>
+
+<!-- ================= INVITATION GATE ================= -->
+<div class="gate" id="gate">
+  <div class="gate-ring" aria-hidden="true">
+    <svg style="top:14%; left:12%; width:14px;" viewBox="0 0 24 24"><path fill="#BE9A56" d="M12 0l2.5 8.5L23 12l-8.5 2.5L12 23l-2.5-8.5L1 12l8.5-2.5z"/></svg>
+    <svg style="bottom:16%; right:14%; width:16px;" viewBox="0 0 24 24"><path fill="#3E7A72" d="M12 0l2.5 8.5L23 12l-8.5 2.5L12 23l-2.5-8.5L1 12l8.5-2.5z"/></svg>
+  </div>
+
+  <div class="gate-inner">
+    <span class="eyebrow gate-eyebrow">You are cordially invited</span>
+
+    <div class="gate-photo-frame">
+      <div class="inner">
+        <img src="images/irfan-shafna.jpg" alt="Irfan and Shafna" loading="lazy">
+      </div>
+    </div>
+
+    <h2 class="gate-names">Irfan <span class="amp">&amp;</span> Shafna</h2>
+
+    <blockquote class="gate-quote">
+      &ldquo;And among His signs is that He created for you spouses from among yourselves, that you may find tranquility in them, and He placed between you love and mercy.&rdquo;
+      <span class="gate-quote-ref">Qur&rsquo;an 30:21</span>
+    </blockquote>
+
+    <button class="gate-cta" id="gateOpenBtn" type="button">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      Open Invitation
+    </button>
+    <span class="gate-hint">Tap to enter &amp; play our song</span>
+  </div>
+</div>
+
+<audio id="bgSong" loop preload="none">
+  <source src="audio/our-song.mp3" type="audio/mpeg">
+  <source src="audio/our-song.m4a" type="audio/mp4">
+</audio>
+
+<button class="music-toggle" id="musicToggle" type="button" aria-label="Pause music" title="Pause music">
+  <span class="bars"><span></span><span></span><span></span></span>
+</button>
 
 <!-- ================= HERO / MONOGRAM ================= -->
 <header class="hero">
@@ -494,6 +691,52 @@
 </footer>
 
 <script>
+  // ---------- Invitation gate + song ----------
+  document.documentElement.classList.add('gate-locked');
+
+  const gate = document.getElementById('gate');
+  const gateOpenBtn = document.getElementById('gateOpenBtn');
+  const bgSong = document.getElementById('bgSong');
+  const musicToggle = document.getElementById('musicToggle');
+
+  function openInvitation(){
+    gate.classList.add('gate-hidden');
+    document.documentElement.classList.remove('gate-locked');
+
+    bgSong.volume = 0.85;
+    const playPromise = bgSong.play();
+    if(playPromise !== undefined){
+      playPromise.then(() => {
+        musicToggle.classList.remove('paused');
+      }).catch(() => {
+        // autoplay was blocked; leave toggle in a paused-looking state
+        musicToggle.classList.add('paused');
+      });
+    }
+    musicToggle.classList.add('show');
+
+    gate.addEventListener('transitionend', () => { gate.style.display = 'none'; }, { once:true });
+  }
+
+  gateOpenBtn.addEventListener('click', openInvitation);
+  gate.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' '){ openInvitation(); }
+  });
+
+  musicToggle.addEventListener('click', () => {
+    if(bgSong.paused){
+      bgSong.play();
+      musicToggle.classList.remove('paused');
+      musicToggle.setAttribute('aria-label','Pause music');
+      musicToggle.setAttribute('title','Pause music');
+    } else {
+      bgSong.pause();
+      musicToggle.classList.add('paused');
+      musicToggle.setAttribute('aria-label','Play music');
+      musicToggle.setAttribute('title','Play music');
+    }
+  });
+
   // ---------- Main hero countdown (to Nikkah) ----------
   const nikkahTarget = new Date("2026-09-26T00:00:00+05:30").getTime();
 
