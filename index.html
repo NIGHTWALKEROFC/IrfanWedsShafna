@@ -489,41 +489,6 @@
   }
   .gate-monogram{ animation: gateFloat 5s ease-in-out infinite; }
 
-  /* ---------- Floating music control ---------- */
-  .music-toggle{
-    position:fixed;
-    right:20px; bottom:20px;
-    z-index:500;
-    width:52px; height:52px;
-    border-radius:50%;
-    background:var(--deep-teal);
-    border:1px solid var(--gold-soft);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    box-shadow:0 10px 26px rgba(30,72,68,0.28);
-    opacity:0;
-    transform:translateY(10px);
-    transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease;
-  }
-  .music-toggle.show{ opacity:1; transform:translateY(0); }
-  .music-toggle svg{ width:20px; height:20px; fill:var(--gold-soft); }
-  .music-toggle .bars{ display:flex; align-items:flex-end; gap:3px; height:16px; }
-  .music-toggle .bars span{
-    display:block; width:3px; background:var(--gold-soft); border-radius:2px;
-    animation: barBounce 0.9s ease-in-out infinite;
-  }
-  .music-toggle .bars span:nth-child(1){ height:6px; animation-delay:0s; }
-  .music-toggle .bars span:nth-child(2){ height:16px; animation-delay:0.15s; }
-  .music-toggle .bars span:nth-child(3){ height:10px; animation-delay:0.3s; }
-  .music-toggle.paused .bars span{ animation-play-state:paused; height:5px !important; }
-
-  @keyframes barBounce{
-    0%,100%{ transform:scaleY(0.4); }
-    50%{ transform:scaleY(1); }
-  }
-
   @media (max-width:420px){
     .gate-monogram{ width:120px; }
   }
@@ -585,10 +550,6 @@
   <source src="audio/our-song.mp3" type="audio/mpeg">
   <source src="audio/our-song.m4a" type="audio/mp4">
 </audio>
-
-<button class="music-toggle" id="musicToggle" type="button" aria-label="Pause music" title="Pause music">
-  <span class="bars"><span></span><span></span><span></span></span>
-</button>
 
 <!-- ================= HERO / MONOGRAM ================= -->
 <header class="hero">
@@ -736,23 +697,13 @@
   const gate = document.getElementById('gate');
   const gateOpenBtn = document.getElementById('gateOpenBtn');
   const bgSong = document.getElementById('bgSong');
-  const musicToggle = document.getElementById('musicToggle');
 
   function openInvitation(){
     gate.classList.add('gate-hidden');
     document.documentElement.classList.remove('gate-locked');
 
     bgSong.volume = 0.85;
-    const playPromise = bgSong.play();
-    if(playPromise !== undefined){
-      playPromise.then(() => {
-        musicToggle.classList.remove('paused');
-      }).catch(() => {
-        // autoplay was blocked; leave toggle in a paused-looking state
-        musicToggle.classList.add('paused');
-      });
-    }
-    musicToggle.classList.add('show');
+    bgSong.play().catch(() => { /* autoplay may be blocked by the browser */ });
 
     gate.addEventListener('transitionend', () => { gate.style.display = 'none'; }, { once:true });
   }
@@ -760,20 +711,6 @@
   gateOpenBtn.addEventListener('click', openInvitation);
   gate.addEventListener('keydown', (e) => {
     if(e.key === 'Enter' || e.key === ' '){ openInvitation(); }
-  });
-
-  musicToggle.addEventListener('click', () => {
-    if(bgSong.paused){
-      bgSong.play();
-      musicToggle.classList.remove('paused');
-      musicToggle.setAttribute('aria-label','Pause music');
-      musicToggle.setAttribute('title','Pause music');
-    } else {
-      bgSong.pause();
-      musicToggle.classList.add('paused');
-      musicToggle.setAttribute('aria-label','Play music');
-      musicToggle.setAttribute('title','Play music');
-    }
   });
 
   // ---------- Main hero countdown (to Nikkah) ----------
