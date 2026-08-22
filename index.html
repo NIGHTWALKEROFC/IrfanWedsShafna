@@ -219,24 +219,47 @@
   .section-head h2{font-size:clamp(2.2rem, 5vw, 3.2rem); margin-bottom:18px;}
   .section-head p{max-width:520px; margin:0 auto; color:var(--ink-soft); font-size:1rem;}
 
-  /* ================= FEATURE PHOTO ================= */
+  /* ================= FEATURE QUOTE ================= */
   .feature-photo{background:var(--paper);}
   .feature-frame{
-    width:min(90vw, 480px);
+    width:min(90vw, 520px);
     margin:0 auto;
     position:relative;
     border-radius: 8px 160px 8px 160px;
     overflow:hidden;
     box-shadow:var(--shadow);
     border:1px solid var(--gold-soft);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(190,154,86,0.14), transparent 60%),
+      linear-gradient(180deg, var(--ivory), var(--mint-pale) 140%);
+    padding:64px 44px 56px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
   }
-  .feature-frame img{width:100%; height:auto; object-fit:cover; aspect-ratio:3/4;}
   .feature-frame::after{
     content:"";
     position:absolute; inset:14px;
     border-radius: 4px 140px 4px 140px;
     border:1px solid rgba(251,246,237,0.75);
     pointer-events:none;
+  }
+  .feature-flourish{ width:40px; height:40px; margin-bottom:22px; }
+  .feature-frame blockquote{
+    position:relative;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:clamp(1.25rem, 3vw, 1.55rem);
+    line-height:1.65;
+    color:var(--deep-teal);
+    max-width:400px;
+  }
+  .feature-frame .feature-sign{
+    margin-top:24px;
+    font-family:'Allura', cursive;
+    font-size:1.6rem;
+    color:var(--gold);
   }
   .feature-caption{
     text-align:center;
@@ -388,22 +411,12 @@
 
   .gate-inner{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; max-width:420px; }
 
-  .gate-photo-frame{
-    width:min(42vw, 150px);
+  .gate-monogram{
+    width:min(42vw, 160px);
     aspect-ratio:1/1;
     margin-bottom:24px;
-    border-radius:50%;
-    padding:5px;
-    background: conic-gradient(from 0deg, var(--gold), var(--gold-soft), var(--gold));
     filter:drop-shadow(0 14px 28px rgba(30,72,68,0.2));
   }
-  .gate-photo-frame .inner{
-    width:100%; height:100%;
-    border-radius:50%;
-    overflow:hidden;
-    border:3px solid var(--ivory);
-  }
-  .gate-photo-frame img{ width:100%; height:100%; object-fit:cover; }
 
   .gate-eyebrow{ margin-bottom:6px; }
 
@@ -474,7 +487,7 @@
     0%,100%{ transform:translateY(0); }
     50%{ transform:translateY(-8px); }
   }
-  .gate-photo-frame{ animation: gateFloat 5s ease-in-out infinite; }
+  .gate-monogram{ animation: gateFloat 5s ease-in-out infinite; }
 
   /* ---------- Floating music control ---------- */
   .music-toggle{
@@ -512,7 +525,7 @@
   }
 
   @media (max-width:420px){
-    .gate-photo-frame{ width:120px; }
+    .gate-monogram{ width:120px; }
   }
 </style>
 </head>
@@ -528,11 +541,30 @@
   <div class="gate-inner">
     <span class="eyebrow gate-eyebrow">You are cordially invited</span>
 
-    <div class="gate-photo-frame">
-      <div class="inner">
-        <img src="images/irfan-shafna.jpg" alt="Irfan and Shafna" loading="lazy">
-      </div>
-    </div>
+    <svg class="gate-monogram" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Monogram of Irfan and Shafna, the letters I and S encircled by a laurel wreath">
+      <circle cx="110" cy="110" r="104" fill="var(--ivory,#FBF6ED)"/>
+      <circle cx="110" cy="110" r="104" fill="none" stroke="#BE9A56" stroke-width="1.4"/>
+      <!-- laurel wreath -->
+      <g fill="none" stroke="#3E7A72" stroke-width="2" stroke-linecap="round" opacity="0.75">
+        <path d="M34 132 Q22 96 40 62 Q52 42 74 30"/>
+        <path d="M186 132 Q198 96 180 62 Q168 42 146 30"/>
+      </g>
+      <g fill="#9FC2B8" opacity="0.85">
+        <ellipse cx="36" cy="118" rx="7" ry="3.4" transform="rotate(-35 36 118)"/>
+        <ellipse cx="30" cy="100" rx="7" ry="3.4" transform="rotate(-15 30 100)"/>
+        <ellipse cx="30" cy="82" rx="7" ry="3.4" transform="rotate(10 30 82)"/>
+        <ellipse cx="38" cy="64" rx="7" ry="3.4" transform="rotate(35 38 64)"/>
+        <ellipse cx="52" cy="48" rx="7" ry="3.4" transform="rotate(55 52 48)"/>
+        <ellipse cx="184" cy="118" rx="7" ry="3.4" transform="rotate(35 184 118)"/>
+        <ellipse cx="190" cy="100" rx="7" ry="3.4" transform="rotate(15 190 100)"/>
+        <ellipse cx="190" cy="82" rx="7" ry="3.4" transform="rotate(-10 190 82)"/>
+        <ellipse cx="182" cy="64" rx="7" ry="3.4" transform="rotate(-35 182 64)"/>
+        <ellipse cx="168" cy="48" rx="7" ry="3.4" transform="rotate(-55 168 48)"/>
+      </g>
+      <text x="82" y="140" text-anchor="middle" font-family="Allura, cursive" font-size="88" fill="#1E4844">I</text>
+      <text x="110" y="132" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-weight="500" font-size="24" fill="#BE9A56">&amp;</text>
+      <text x="146" y="140" text-anchor="middle" font-family="Allura, cursive" font-size="88" fill="#1E4844">S</text>
+    </svg>
 
     <h2 class="gate-names">Irfan <span class="amp">&amp;</span> Shafna</h2>
 
@@ -603,11 +635,18 @@
   <div class="scroll-cue" aria-hidden="true"></div>
 </header>
 
-<!-- ================= FEATURE PHOTO ================= -->
+<!-- ================= FEATURE QUOTE ================= -->
 <section class="feature-photo" id="together">
   <div class="wrap">
     <div class="feature-frame">
-      <img src="images/irfan-shafna.jpg" alt="Irfan and Shafna together, Irfan holding a bouquet for Shafna" loading="lazy">
+      <svg class="feature-flourish" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M24 4c0 8-6 12-6 20s6 12 6 20c0-8 6-12 6-20s-6-12-6-20z" fill="var(--gold-soft)"/>
+        <circle cx="24" cy="24" r="3.2" fill="var(--gold)"/>
+        <path d="M4 24c8 0 12-6 20-6s12 6 20 6c-8 0-12 6-20 6s-12-6-20-6z" fill="var(--mint)" opacity="0.55"/>
+      </svg>
+      <blockquote>
+        &ldquo;Of all the paths I could have taken, I&rsquo;m glad this one led to you.&rdquo;
+      </blockquote>
     </div>
     <div class="feature-caption">
       <span class="script">Irfan &amp; Shafna</span>
